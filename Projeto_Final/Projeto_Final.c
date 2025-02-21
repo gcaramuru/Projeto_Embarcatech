@@ -279,7 +279,7 @@ void conteudo_adc(){
     };
   desenho_da_string(texto_adc);        // "Desenha" string a ser renderizada
   render_on_display(ssd, &frame_area); // Renderiza a informação no display
-  sleep_ms(10000);                     // Delay
+  sleep_ms(8000);                     // Delay
 
   float temp = temperatura();          // Armazena na variável a leitura da temperatura do sensor
   char tempC[16];                      // Variável que auxilia na conversão do valor de temperatura em string
@@ -300,7 +300,7 @@ void conteudo_adc(){
     };
   desenho_da_string(texto__exemplo_adc);    // "Desenha" string a ser renderizada
   render_on_display(ssd, &frame_area);      // Renderiza a informação no display
-  sleep_ms(6000);                           // Delay
+  sleep_ms(8000);                           // Delay
 
 }
 
@@ -334,7 +334,7 @@ void conteudo_botao(){
     };
   desenho_da_string(texto_botao);             // "Desenha" string a ser renderizada
   render_on_display(ssd, &frame_area);        // Renderiza a informação no display
-  sleep_ms(10000);                            // Delay
+  sleep_ms(8000);                            // Delay
 
   memset(ssd, 0, ssd1306_buffer_length);      // Limpa o display
   render_on_display(ssd, &frame_area);        // Renderiza a informação no display
@@ -452,7 +452,7 @@ void conteudo_buzzer(){
   pwm_init_buzzer(BUZZER_PIN);                // Inicializa o PWM no pino do buzzer
   play_star_wars(BUZZER_PIN);                 // Toca a múscia (baseado no exemplo do github)
 
-  sleep_ms(6000);                             // Delay
+  // sleep_ms(6000);                             // Delay
 }
 
 /* Função que executa o conteudo "DISPLAY" */
@@ -472,7 +472,7 @@ void conteudo_display(){
     };
   desenho_da_string(texto_display);           // "Desenha" string a ser renderizada
   render_on_display(ssd, &frame_area);        // Renderiza a informação no display
-  sleep_ms(6000);                             // Delay
+  sleep_ms(8000);                             // Delay
 }
 
 /* Função de interrupção do botão do joystick*/
@@ -532,7 +532,7 @@ void conteudo_joystick(){
     };
   desenho_da_string(texto_joystick);          // "Desenha" string a ser renderizada
   render_on_display(ssd, &frame_area);        // Renderiza a informação no display
-  sleep_ms(10000);                            // Delay
+  sleep_ms(8000);                            // Delay
   memset(ssd, 0, ssd1306_buffer_length);      // Limpa o display
   render_on_display(ssd, &frame_area);        // Renderiza a informação no display
   /* Texto a ser renderizado no display */
@@ -634,11 +634,11 @@ void conteudo_matriz_de_led(){
   npClear();        // Limpa os leds da matriz  (apaga todos)
   /* Matriz de desenho dos leds */
   int matriz[5][5][3] = {
-    {{255, 0, 0}, {255, 0, 0}, {255, 0, 0}, {255, 0, 0}, {255, 0, 0}},
-    {{255, 0, 0}, {0, 255, 0}, {255, 20, 150}, {0, 255, 0}, {255, 0, 0}},
-    {{255, 0, 0}, {255, 20, 150}, {255, 255, 255}, {255, 20, 150}, {0, 0, 255}},
-    {{0, 0, 255}, {0, 255, 0}, {255, 20, 150}, {0, 255, 0}, {0, 0, 255}},
-    {{0, 0, 255}, {0, 0, 255}, {0, 0, 255}, {0, 0, 255}, {0, 0, 255}}
+    {{120, 0, 0}, {120, 0, 0}, {120, 0, 0}, {120, 0, 0}, {120, 0, 0}},
+    {{120, 0, 0}, {0, 120, 0}, {230, 0, 50}, {0, 120, 0}, {120, 0, 0}},
+    {{120, 0, 0}, {230, 0, 50}, {120, 120, 120}, {230, 0, 50}, {0, 0, 120}},
+    {{0, 0, 120}, {0, 120, 0}, {230, 0, 50}, {0, 120, 0}, {0, 0, 120}},
+    {{0, 0, 120}, {0, 0, 120}, {0, 0, 120}, {0, 0, 120}, {0, 0, 120}}
   };
   /* Desenhando Sprite contido na matriz */ 
   for(int linha = 0; linha < 5; linha++){
@@ -648,7 +648,7 @@ void conteudo_matriz_de_led(){
     }
   }
   npWrite();        // Passando o conteúdo para os leds da matriz
-  sleep_ms(6000);   // Delay
+  sleep_ms(8000);   // Delay
   npClear();        // Limpa os leds da matriz  (apaga todos)
   npWrite();        // Passando o conteúdo para os leds da matriz
 }
@@ -709,7 +709,7 @@ void conteudo_temporizador(){
     };
   desenho_da_string(texto_temporizador);    // "Desenha" string a ser renderizada
   render_on_display(ssd, &frame_area);      // Renderiza a informação no display
-  sleep_ms(10000);                          // Delay
+  sleep_ms(8000);                          // Delay
   memset(ssd, 0, ssd1306_buffer_length);    // Limpa o display
   render_on_display(ssd, &frame_area);      // Renderiza a informação no display
   /* Texto a ser renderizado no display */
@@ -748,8 +748,8 @@ void interrupcao_irq_handler(){
     }
     time_interrupcao = get_absolute_time(); // Atualização do valor do tempo
     current_time = get_absolute_time();     // Atualização do valor do tempo
-    /* Loop de duração de 5 segundos */
-    while(absolute_time_diff_us(time_interrupcao, current_time) < 5000000){
+    /* Loop de duração de 3 segundos */
+    while(absolute_time_diff_us(time_interrupcao, current_time) < 3000000){
         current_time = get_absolute_time(); // Atualização do valor do tempo
         gpio_put(LED_VERMELHO, 1);          // Acende o led vermelho
         pwm_set_gpio_level(BUZZER_PIN, 0);  // Desliga o buzzer
@@ -774,7 +774,7 @@ void conteudo_interrupcao(){
     };
   desenho_da_string(texto_interrupcao);     // "Desenha" string a ser renderizada
   render_on_display(ssd, &frame_area);      // Renderiza a informação no display
-  sleep_ms(10000);                          // Delay
+  sleep_ms(8000);                          // Delay
   memset(ssd, 0, ssd1306_buffer_length);    // Limpa o display
   render_on_display(ssd, &frame_area);      // Renderiza a informação no display
   /* Texto a ser renderizado no display */
@@ -817,7 +817,42 @@ void conteudo_pio(){
     };
   desenho_da_string(texto_pio);             // "Desenha" string a ser renderizada
   render_on_display(ssd, &frame_area);      // Renderiza a informação no display
-  sleep_ms(10000);                          // Delay
+  sleep_ms(8000);                          // Delay
+
+  memset(ssd, 0, ssd1306_buffer_length);    // Limpa o display
+  render_on_display(ssd, &frame_area);      // Renderiza a informação no display
+  /* Texto a ser renderizado no display */
+  char *texto_exemplo_pio[] = {
+    "                ",
+    "                ",
+    "Esse recurso    ",
+    "Eh utilizado    ",
+    "no controle da  ",
+    "matriz de led   ",
+    "                ",
+    "                ",
+    };
+  desenho_da_string(texto_exemplo_pio);             // "Desenha" string a ser renderizada
+  render_on_display(ssd, &frame_area);      // Renderiza a informação no display
+  /* Matriz de desenho dos leds */
+  int matriz[5][5][3] = {
+    {{80, 0, 0}, {80, 0, 0}, {80, 0, 0}, {80, 0, 0}, {80, 0, 0}},
+    {{80, 0, 0}, {0, 0, 100}, {0, 0, 100}, {0, 0, 100}, {80, 0, 0}},
+    {{80, 0, 0}, {0, 0, 100}, {0, 200, 0}, {0, 0, 100}, {80, 0, 0}},
+    {{80, 0, 0}, {0, 0, 100}, {0, 0, 100}, {0, 0, 100}, {80, 0, 0}},
+    {{80, 0, 0}, {80, 0, 0}, {80, 0, 0}, {80, 0, 0}, {80, 0, 0}}
+  };
+  /* Desenhando Sprite contido na matriz */ 
+  for(int linha = 0; linha < 5; linha++){
+    for(int coluna = 0; coluna < 5; coluna++){
+      int posicao = getIndex(linha, coluna);
+      npSetLED(posicao, matriz[coluna][linha][0], matriz[coluna][linha][1], matriz[coluna][linha][2]);
+    }
+  }
+  npWrite();        // Passando o conteúdo para os leds da matriz
+  sleep_ms(8000);   // Delay
+  npClear();        // Limpa os leds da matriz  (apaga todos)
+  npWrite();        // Passando o conteúdo para os leds da matriz
 }
 
 /* Função de execução principal do sistema */
@@ -955,7 +990,7 @@ int main()
         while(start == 5){
           sleep_ms(500);            // Delay
         }
-        sleep_ms(4000);             // Delay
+        sleep_ms(5000);             // Delay
       }
     }
     return 0;
