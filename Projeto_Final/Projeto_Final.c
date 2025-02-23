@@ -741,12 +741,11 @@ void conteudo_temporizador(){
 }
 
 void interrupcao_irq_handler(){
-    static absolute_time_t time_interrupcao; // Variável de tempo que auxilia no debouncing do botão B
-    absolute_time_t current_time = get_absolute_time(); // Atualização do tempo na variável
-    if (absolute_time_diff_us(time_interrupcao, current_time) > 100000) {
-        time_interrupcao = current_time; // Atualização do tempo na variável
-        interrupcao = 1;                 // Atualiza a variável que condiciona o loop
-    }
+    static absolute_time_t time_interrupcao;// Variável de tempo que auxilia no loop
+    absolute_time_t current_time;           // Atualização do tempo na variável
+
+    interrupcao = 1;                        // Atualiza a variável que condiciona o loop
+    
     time_interrupcao = get_absolute_time(); // Atualização do valor do tempo
     current_time = get_absolute_time();     // Atualização do valor do tempo
     /* Loop de duração de 3 segundos */
@@ -799,6 +798,7 @@ void conteudo_interrupcao(){
     pwm_set_gpio_level(BUZZER_PIN, 200);    // Envia o valor PWM para o buzzer tocar
   }
   gpio_set_irq_enabled_with_callback(BUTTON_B_PIN, GPIO_IRQ_EDGE_FALL, false, &interrupcao_irq_handler); // Desabilita a interrupção do botão B
+  interrupcao = 0;     // Atualiza a variável que condiciona o loop 
 }
 
 /* Função que executa o conteúdo "PIO" */
