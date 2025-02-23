@@ -741,10 +741,8 @@ void conteudo_temporizador(){
 }
 
 void interrupcao_irq_handler(){
-    static absolute_time_t time_interrupcao;// Variável de tempo que auxilia no loop
-    absolute_time_t current_time;           // Atualização do tempo na variável
-
-    interrupcao = 1;                        // Atualiza a variável que condiciona o loop
+    static absolute_time_t time_interrupcao; // Variável de tempo que auxilia no debouncing do botão B
+    absolute_time_t current_time; // Atualização do tempo na variável
     
     time_interrupcao = get_absolute_time(); // Atualização do valor do tempo
     current_time = get_absolute_time();     // Atualização do valor do tempo
@@ -755,6 +753,7 @@ void interrupcao_irq_handler(){
         pwm_set_gpio_level(BUZZER_PIN, 0);  // Desliga o buzzer
     }
     gpio_put(LED_VERMELHO, 0);              // Apaga o led vermelho
+    interrupcao = 1;                 // Atualiza a variável que condiciona o loop
 }
 
 /* Função que executa o conteúdo "INTERRUPCAO" */
@@ -793,12 +792,13 @@ void conteudo_interrupcao(){
 
   gpio_set_irq_enabled_with_callback(BUTTON_B_PIN, GPIO_IRQ_EDGE_FALL, true, &interrupcao_irq_handler); // Habilita a interrupção do botão B
   pwm_init_buzzer(BUZZER_PIN);  // Configura o pino do buzzer para PWM
+  interrupcao = 0;     // Atualiza a variável que condiciona o loop
   /* Loop que toca o buzzer enquanto não há interrupção */
   while(interrupcao == 0){
     pwm_set_gpio_level(BUZZER_PIN, 200);    // Envia o valor PWM para o buzzer tocar
   }
-  gpio_set_irq_enabled_with_callback(BUTTON_B_PIN, GPIO_IRQ_EDGE_FALL, false, &interrupcao_irq_handler); // Desabilita a interrupção do botão B
-  interrupcao = 0;     // Atualiza a variável que condiciona o loop 
+  pwm_set_gpio_level(BUZZER_PIN, 0);  // Desliga o buzzer
+  gpio_set_irq_enabled_with_callback(BUTTON_B_PIN, GPIO_IRQ_EDGE_FALL, false, &interrupcao_irq_handler); // Desabilita a interrupção do botão B 
 }
 
 /* Função que executa o conteúdo "PIO" */
