@@ -258,8 +258,9 @@ float temperatura() {
   /* Converte a leitura analógica em temperatura */
   const float conversion_factor = 3.3f / (1 << 12);
   float voltage = temp * conversion_factor;    
-  float temperatura = 27.0f - (voltage - 0.706f) / 0.001721f; 
-  return temperatura;
+  float celsius = 27.0f - (voltage - 0.706f) / 0.001721f; 
+  float fahrenheit = (1.8*celsius) + 32;
+  return fahrenheit;
 }
 
 /* Função que executa o conteúdo "ADC" */
@@ -283,7 +284,7 @@ void conteudo_adc(){
 
   float temp = temperatura();          // Armazena na variável a leitura da temperatura do sensor
   char tempC[16];                      // Variável que auxilia na conversão do valor de temperatura em string
-  snprintf(tempC, sizeof(tempC), "    %.2f C", temp);   // Converte o valor da temperatura na string a ser renderizada
+  snprintf(tempC, sizeof(tempC), "    %.2f F", temp);   // Converte o valor da temperatura na string a ser renderizada
 
   memset(ssd, 0, ssd1306_buffer_length);  // Limpa o display
   render_on_display(ssd, &frame_area);    // Renderiza a informação no display
@@ -381,16 +382,16 @@ const uint star_wars_notes[] = {
 };
 /* Duração das notas musicais (Baseada no exemplo disponível no github) */ 
 const uint note_duration[] = {
-  500, 500, 500, 350, 150, 300, 500, 350,
-  150, 300, 500, 500, 500, 500, 350, 150,
-  300, 500, 500, 350, 150, 300, 500, 350,
-  150, 300, 650, 500, 150, 300, 500, 350,
-  150, 300, 500, 150, 300, 500, 350, 150,
-  300, 650, 500, 350, 150, 300, 500, 350,
-  150, 300, 500, 500, 500, 500, 350, 150,
-  300, 500, 500, 350, 150, 300, 500, 350,
-  150, 300, 500, 350, 150, 300, 500, 500,
-  350, 150, 300, 500, 500, 350, 150, 300,
+  250, 250, 250, 175, 75, 150, 250, 175,
+  75, 150, 250, 250, 250, 250, 175, 75,
+  150, 250, 250, 175, 75, 150, 250, 175,
+  75, 150, 325, 250, 75, 150, 250, 175,
+  75, 150, 250, 75, 150, 250, 175, 75,
+  150, 325, 250, 175, 75, 150, 250, 175,
+  75, 150, 250, 250, 250, 250, 175, 75,
+  150, 250, 250, 175, 75, 150, 250, 175,
+  75, 150, 250, 175, 75, 150, 250, 250,
+  175, 75, 150, 250, 250, 175, 75, 150,
 };
 
 /* Inicializa o PWM no pino do buzzer */
@@ -865,10 +866,10 @@ int main()
     conf_joystick();
     conf_i2c();
     conf_display();
-    texto_inicial_display();
     conf_led();
     conf_botao_b();
-    npInit(LED_PIN);  // Inicializa matriz de LEDs NeoPixel
+    npInit(LED_PIN);  // Inicializa a máquina PIO para a matriz de LEDs NeoPixel
+    texto_inicial_display();
     /* Loop infinito que roda a execução do projeto */
     while(true) {
       /* Condição que verifica o momento de execução do código */
